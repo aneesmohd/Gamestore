@@ -1,0 +1,95 @@
+{% extends 'store/layouts/main.html' %}
+{% block content %}
+
+<div class="py-3 bg-primary">
+    <div class="container">
+        <a class="text-white" href="{% url 'home' %}">Home/</a>
+        <a class="text-white" href="{% url 'checkout' %}">Checkout</a>
+    </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card shadow">
+      <div class="card-header">
+        <h3>Order View
+          <a href="{% url 'order' %}" class="btn btn-secondary float-end">
+            <i class="fa fa-reply"></i> Back
+          </a>
+        </h3>
+      </div>
+
+      <div class="card-body">
+        <div class="row">
+
+          <!-- Shopping Details (Left Column) -->
+          <div class="col-md-6">
+            <h4>Shopping Details</h4>
+            <hr>
+
+            <label>First Name</label>
+            <div class="border p-1">{{ order.fname }}</div>
+
+            <label>Last Name</label>
+            <div class="border p-1">{{ order.lname }}</div>
+
+            <label>Email</label>
+            <div class="border p-1">{{ order.email }}</div>
+
+            <label>Phone</label>
+            <div class="border p-1">{{ order.phone }}</div>
+
+            <label>Address</label>
+            <div class="border p-1">
+              {{ order.address }}, {{ order.city }}, {{ order.state }}, {{ order.country }}
+            </div>
+
+            <label class="mt-2">Zip Code</label>
+            <div class="border p-1">{{ order.pincode }}</div>
+          </div> <!-- END Left Column -->
+
+          <!-- Order Items (Right Column) -->
+          <div class="col-md-6">
+            <h4>Order Items</h4>
+            <hr>
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in orderitems %}
+                  <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>
+                      <img src="{{ item.product.product_image.url }}" height="50px" width="50px" alt="product image">
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <h4>Grand Total:
+              <span class="float-end">₹{{ order.total_price }}</span>
+            </h4>
+
+            <h6 class="border p-2">Payment Mode: {{ order.payment_mode }}</h6>
+            <h6 class="border p-2">Order Status: {{ order.status }}</h6>
+            <h6 class="border p-2">Tracking Number: {{ order.tracking_no }}</h6>
+          </div> <!-- END Right Column -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

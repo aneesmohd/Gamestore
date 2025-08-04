@@ -1,0 +1,56 @@
+{% extends 'store/layouts/main.html' %}
+
+{% block content %}
+
+<div class="py-3 bg-secondary">
+    <div class="container">
+        <a class="text-white" href="{% url 'home' %}">Home</a>
+        <a class="text-white" href="{% url 'order' %}">My Orders</a>
+    </div>
+</div>
+
+<div class="container my-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h3 class="mb-0">My Orders</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Order Date</th>
+                                    <th scope="col">Tracking Number</th>
+                                    <th scope="col">Total Price</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in orders %}
+                                <tr>
+                                    <td>{{ item.created_at }}</td>
+                                    <td>{{ item.tracking_no }}</td>
+                                    <td>{{ item.total_price }}</td>
+                                    <td>{{ item.status }}</td>
+                                    <td>
+                                        <a href="{% url 'orderview' item.tracking_no %}" class="btn btn-secondary btn-sm">View</a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center">No orders found!</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'store/layouts/main.html' %}
+{% block content %}
+
+<div class="py-3 bg-primary">
+    <div class="container">
+        <a class="text-white" href="{% url 'home' %}">Home/</a>
+        <a class="text-white" href="{% url 'wishlist' %}">Wishlist</a>
+    </div>
+</div>
+
+<div class="py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow wishlist">
+          <div class="card-body">
+            {% if wishlist %}
+              {% for item in wishlist %}
+                <div class="row product_data">
+                  <div class="col-md-2 text-center">
+                    <img src="{{ item.product.product_image.url }}" height="70px" width="70px" alt="image here" class="img-fluid">
+                  </div>
+                  <div class="col-md-3 my-auto">
+                    <h6>{{ item.product.name }}</h6>
+                  </div>
+                  <div class="col-md-2 my-auto">
+                    <h6>Rs {{ item.product.selling_price }}</h6>
+                  </div>
+                  <div class="col-md-5 my-auto d-flex justify-content-between">
+                    <input type="hidden" class="prod_id" value="{{ item.product.id }}">
+                    {% csrf_token %}
+                    <a href="{% url 'productview' item.product.category.slug item.product.slug %}" class="btn btn-primary me-2">
+                      <i class="fa fa-eye"></i> View Product
+                    </a>
+                      <button class="btn btn-danger delete-wishlist-item me-2">
+                          <i class="fa fa-trash"></i>remove
+                      </button>
+                    <a href="{% url 'checkout' %}" class="btn btn-outline-success"><i class="fa fa-shopping-cart"></i>Checkout</a>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <h4>Your Wishlist is Empty</h4>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
